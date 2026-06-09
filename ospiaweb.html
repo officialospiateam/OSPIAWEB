@@ -1,0 +1,1939 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSPIA | Organization for Student</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="logoospia.png" type="image/x-icon">
+    
+    <style>
+        /* --- 1. CORE VARIABLES & RESET --- */
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-card: #141414;
+            --accent: #6c63ff; /* Vivid Purple */
+            --accent-glow: #6c63ff80;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+            --font: 'Outfit', sans-serif;
+            
+            }
+            html {
+             scroll-behavior: smooth;
+           }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font);
+            overflow-x: hidden;
+        }
+
+        /* --- 2. INTERACTIVE NAVBAR --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: 0.4s ease;
+        }
+
+        nav.scrolled {
+            padding: 15px 50px;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+        }
+
+       .logo {
+        font-weight: 800;
+        font-size: 1,2rem; 
+        letter-spacing: 2px;
+        color: var(--text-main);
+          cursor: pointer;
+         display: flex;
+        align-items: center; 
+        gap: 15px; /* Jarak antara logo (gambar) dan teks */
+        }
+
+        .org-name {
+        font-size: 1.0rem; /* Ukuran font teks organisasi */
+        font-weight: 600; /* Sedikit lebih tebal */
+        color: var(--text-main);
+        /* Untuk tampilan di perangkat kecil */
+        white-space: nowrap; 
+        }
+
+        nav.scrolled .org-name {
+        font-size: 0.9rem;
+        transition: 0.4s ease;
+        }
+
+        .logo img {
+         max-height: 40px !important; /* Batasi tinggi maksimum */
+          height: 40px !important;     /* Berikan tinggi mutlak */
+          width: auto !important;      /* Jaga proporsi */
+          display: block;              /* Penting untuk penempatan */
+         }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 400;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-main);
+            text-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after { width: 100%; }
+
+        /* --- 3. HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            background: radial-gradient(circle at 40% 40%, #3a7abfa6 0.0001%, var(--bg-dark) 31%);
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #fff, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0;
+            animation: fadeUp 1s forwards 0.5s;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            opacity: 0;
+            animation: fadeUp 1s forwards 0.8s;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            animation: bounce 2s infinite;
+            opacity: 0.5;
+        }
+
+        /* --- 4. SECTIONS GENERAL --- */
+        .section {
+            padding: 100px 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            border-left: 4px solid #3a7abf;
+            padding-left: 20px;
+        }
+
+        /* --- 5. ABOUT SECTION --- */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .about-card {
+            background: var(--glass);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid #3a7abfa6;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-card::before {
+            content: '';
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: #3a7abfa6;
+            filter: blur(80px);
+            top: -50px;
+            right: -50px;
+            opacity: 0.4;
+        }
+
+        /* --- 6. EVENTS MARQUEE --- */
+        .events-container {
+            padding: 80px 0;
+            background: var(--bg-card);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .marquee-wrapper {
+            display: flex;
+            width: fit-content;
+            animation: scrollLeft 0s linear infinite;
+        }
+
+        .track {
+            display: flex;
+            gap: 40px;
+            width: max-content;
+            animation: scrollLeft 0s linear infinite;
+            will-change: transform;
+            backface-visibility: hidden;
+            perspective: 1000px;
+        }
+
+        .track:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes scrollLeft {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
+        }
+
+        .event-card {
+            width: 350px;
+            height: 220px;
+            background: var(--bg-dark);
+            border: 1px solid #3a7abfa6;
+            margin: 0 20px;
+            border-radius: 15px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: 50s;
+            flex-shrink: 0;
+        }
+
+        .event-card:hover {
+            border-color: #3a7abfa6;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px #3a7abfa6;
+        }
+
+        .event-date {
+            font-size: 0.9rem;
+            color: #3a7abf;
+            font-weight: 600;
+        }
+
+        .event-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+
+        /* --- 7. TEAM SECTION (UPDATED with TABS) --- */
+        .team-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: 1px solid #3a7abfa6;
+            color: var(--text-muted);
+            padding: 10px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: var(--font);
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        .tab-btn:hover, .tab-btn.active {
+            background: #3a7abf85;
+            color: white;
+            border-color: #3a7abf;
+            box-shadow: 0 0 15px #3a7abfa6;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .member-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            transition: 0.4s;
+            /* For Animation */
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .member-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.05);
+        }
+
+        .member-card.hide {
+            display: none;
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, #333, #8ab1e4);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            position: relative;
+        }
+        
+        /* Specific borders/accents for departments */
+        .bph-border .avatar { border: 2px solid #FFD700; } /* Gold for BPH */
+        .health-border .avatar { border: 2px solid #00FF94; } /* Green for Health */
+        .sports-border .avatar { border: 2px solid #FF6B6B; } /* Red for Sports */
+        .creative-border .avatar { border: 2px solid #3a7abf; } /* Purple for Creative */
+
+        .member-name { font-size: 1.2rem; margin-bottom: 5px; }
+        .member-role { font-size: 0.8rem; color: #99badd; letter-spacing: 1px; text-transform: uppercase; }
+
+        /* --- 8. CONTACT SECTION --- */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 50px;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            padding: 50px;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-info h3 { font-size: 2rem; margin-bottom: 20px; }
+        .contact-info p { color: var(--text-muted); margin-bottom: 30px; line-height: 1.6; }
+        
+        .info-item { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; font-size: 1.1rem; }
+        .info-item span { color: var(--accent); }
+
+        .contact-form { display: flex; flex-direction: column; gap: 20px; }
+        
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: #fff;
+            font-family: var(--font);
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            border-color:#3a7abf;
+            box-shadow: 0 0 10px #3a7abf;
+        }
+
+        .submit-btn {
+            padding: 15px;
+            background: #3a7abf;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover { background: #3a7abf65; transform: translateY(-2px); }
+
+        .contact-container::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            left: -50px;
+            width: 200px;
+            height: 200px;
+            background: #3a7abfc9;
+            filter: blur(100px);
+            opacity: 0.2;
+            z-index: -1;
+        }
+
+        /* --- 9. FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 50px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            margin-top: 50px;
+            background: var(--bg-card);
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translateY(30px); }
+        }
+        @keyframes bounce {
+            0%, 100% {transform: translateY(0);}
+            50% {transform: translateY(-10px);}
+        }
+
+        .hidden { opacity: 0; transform: translateY(50px); transition: 1s; }
+        .show { opacity: 1; transform: translateY(0); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .about-content, .contact-container { grid-template-columns: 1fr; }
+            nav { padding: 20px; }
+            .nav-links { display: none; }
+        }
+
+
+ /* Responsive */
+@media (max-width: 768px) {
+    
+    /* 1. Pengaturan Umum dan Font Scaling Otomatis */
+    .hero h1 { 
+        /* Menggunakan unit Viewport Width (vw) agar font benar-benar otomatis menyesuaikan lebar layar */
+        font-size: 10vw; 
+    }
+    .hero p {
+        font-size: 1rem;
+        padding: 0 20px;
+    }
+    .section {
+        /* Kurangi padding horizontal di HP */
+        padding: 50px 20px; 
+    }
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    /* 2. Perbaikan Navbar dan Logo (Mencegah Bocor) */
+    nav { 
+        padding: 15px 20px; 
+    }
+    .logo {
+        gap: 10px;
+        /* Biarkan teks logo mengambil lebar yang diperlukan */
+        width: 100%; 
+        font-size: 1.1rem; 
+    }
+    .logo img {
+        height: 25px !important; /* Logo lebih kecil di HP */
+    }
+    .org-name {
+        font-size: 0.7rem; /* Nama organisasi lebih kecil */
+        /* PENTING: Izinkan teks membungkus ke baris baru, mencegah overflow horizontal */
+        white-space: normal; 
+        line-height: 1.2;
+    }
+    nav.scrolled .org-name {
+        font-size: 0.7rem;
+    }
+
+    /* 3. Perbaikan Team Tabs (Mencegah Wrapping Ganjil) */
+    .team-tabs {
+        /* Membuat tombol-tombol bisa di-scroll secara horizontal */
+        overflow-x: auto;
+        justify-content: flex-start; 
+        flex-wrap: nowrap; /* PENTING: Matikan pembungkusan ke baris baru */
+        padding-bottom: 10px; /* Beri ruang untuk scrollbar */
+        margin-bottom: 30px;
+    }
+    .tab-btn {
+        padding: 8px 15px; /* Tombol filter lebih kecil */
+        font-size: 0.9rem;
+        flex-shrink: 0; /* Pastikan tombol tidak menciut */
+    }
+
+    /* 4. Tata Letak Grid (Kolom) */
+    .about-content, 
+    .contact-container { 
+        /* Ubah tata letak 2 kolom menjadi 1 kolom (vertikal) */
+        grid-template-columns: 1fr; 
+        gap: 30px;
+        padding: 30px;
+    }
+    
+    /* 5. Kartu Anggota (Grid Tim) */
+    .team-grid {
+        /* Paksakan kartu menjadi 2 kolom di HP */
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
+        gap: 15px;
+    }
+    .member-card {
+        padding: 20px 10px;
+    }
+    .avatar {
+        width: 70px; 
+        height: 70px;
+        margin-bottom: 10px;
+    }
+    .member-name {
+        font-size: 1rem;
+    }
+    .member-role {
+        font-size: 0.7rem;
+    }
+
+    /* 6. Contact Section */
+    .contact-container {
+        padding: 30px;
+    }
+    .contact-info h3 {
+        font-size: 1.5rem;
+    }
+}
+
+/* Perubahan untuk Foto Anggota */
+        .avatar {
+            /* ... kode yang sudah ada ... */
+            overflow: hidden; /* Penting untuk cropping gambar */
+        }
+        
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Memastikan gambar menutupi area tanpa terdistorsi */
+        }
+
+        @keyframes scroll {
+          0% { transform: translateX(0); }
+         100% { transform: translateX(-50%); } /* Geser sejauh setengah lebar container yang sudah diduplikasi */
+        }
+
+        .event-wrapper {
+         display: flex;
+         width: max-content; /* Biar lebar mengikuti jumlah card */
+         animation: scroll 20s linear infinite;
+        }
+
+        a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+   <nav id="navbar">
+    <div class="logo">
+        <img src="logoospia.png" alt="OSPIA Logo">
+        <span class="org-name">Organisasi Pondok Pesantren Ibnu Abbas As-Salafy</span>
+    </div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#events">Events</a></li>
+            <li><a href="#team">Team</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section id="home">
+    <section class="hero">
+        <h1>Innovate.<br>Lead.</h1>
+        <p>Selamat Datang di Laman OSPIA, Have a Nice Day!</p>
+        <div class="scroll-indicator">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+        </div>
+    </section>
+
+    <section id="about" class="section">
+        <h2 class="section-title hidden">About Us</h2>
+        <div class="about-content">
+            <div class="about-text hidden">
+                <p>OSPIA adalah organisasi santri intra Pondok Pesantren Ibnu Abbas As Salafy. Kami berkomitmen penuh untuk mengembangkan bakat akademik maupun non-akademik santri-santri Pondok Pesantren Ibnu Abbas As Salafy, serta menginovasi santri-santri di seluruh nusantara</p>
+                <p>Melalui berbagai program yang kami canangkan, kami berharap mampu berkontribusi dalam pembangunan generasi unggul dan berdaya, yang mampu mendukung Indonesia Emas 2045</p>
+            </div>
+            <div class="about-card hidden">
+                <h3>Misi Kami</h3>
+                <br>
+                <p style="color:white; font-size: 1.0rem;">Menjadi organisasi santri yang mampu memberi dampak positif, baik dalam maupun luar Pondok Pesantren Ibnu Abbas As Salafy</p>
+            </div>
+        </div>
+    </section>
+
+    <div id="events" class="events-container">
+        <div class="section" style="padding-bottom: 20px;">
+            <h2 class="section-title hidden">Our Events</h2>
+        </div>
+        
+        <div class="marquee-wrapper">
+            <div class="track">
+                <!-- SET 1 -->
+                <div class="event-card">
+                    <span class="event-date">28 Februari 2026</span>
+                    <a href="sertijab.html"><span class="event-title">Sertijab Masa Bakti 2025/2026 ke Masa Bakti 2026/2027</span></a>
+                    <p style="color:#888; margin-top:10px;">Estafet Kepemimpinan, Melanjutkan Perjuangan.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section id="team" class="section">
+        <h2 class="section-title hidden">Struktur Organisasi OSPIA Masa Bakti 2026/2027</h2>
+        
+        <div class="team-tabs hidden">
+            <button class="tab-btn" data-category="bph" onclick="filterTeam('bph')">BPH</button>
+            <button class="tab-btn" data-category="ibd" onclick="filterTeam('ibd')">Ibadah</button>
+            <button class="tab-btn" data-category="bhs" onclick="filterTeam('bhs')">Bahasa</button>
+            <button class="tab-btn" data-category="amn" onclick="filterTeam('amn')">Keamanan</button>
+            <button class="tab-btn" data-category="sht" onclick="filterTeam('sht')">Kesehatan</button>
+            <button class="tab-btn" data-category="brs" onclick="filterTeam('brs')">Kebersihan</button>
+            <button class="tab-btn" data-category="olg" onclick="filterTeam('olg')">Olahraga</button>
+            <button class="tab-btn" data-category="sps" onclick="filterTeam('sps')">Sarpras</button>
+            <button class="tab-btn" data-category="mkn" onclick="filterTeam('mkn')">Math'am</button>
+            <button class="tab-btn" data-category="seni" onclick="filterTeam('seni')">Kesenian</button>
+            <button class="tab-btn" data-category="it" onclick="filterTeam('it')">Media</button>
+            <button class="tab-btn" data-category="humas" onclick="filterTeam('humas')">Humas</button>
+            <button class="tab-btn" data-category="bumo" onclick="filterTeam('bumo')">Kewirausahaan</button>
+            <button class="tab-btn" data-category="tar" onclick="filterTeam('tar')">Tarbiyah</button>
+        </div>
+
+        <div class="team-grid">
+            <!--Ketua Umum-->
+            <div class="member-card creative-border hidden" data-category="bph">
+                <div class="avatar"></div>
+                <h3 class="member-name">Fadhil Ahmad Al Hasan</h3>
+                <p class="member-role">Ketua OSPIA</p>
+            </div>
+            <!--Wakil Ketua Umum-->
+            <div class="member-card creative-border hidden" data-category="bph">
+                <div class="avatar"></div>
+                <h3 class="member-name">Muhammad Faqihuddin Habibullah</h3>
+                <p class="member-role">Wakil Ketua OSPIA</p>
+            </div>
+
+            <!--Sekretaris I Umum-->
+            <div class="member-card creative-border hidden" data-category="bph">
+                <div class="avatar"></div>
+                <h3 class="member-name">Tegar Hendriawan Prakosa</h3>
+                <p class="member-role">Sekretaris I</p>
+            </div>
+
+            <!--Sekretaris II Umum-->
+            <div class="member-card creative-border hidden" data-category="bph">
+                <div class="avatar"></div>
+                <h3 class="member-name">Nubaisyah Bin Kholid</h3>
+                <p class="member-role">Sekretaris II</p>
+            </div>
+
+            <!--Bendahara I Umum-->
+            <div class="member-card creative-border hidden" data-category="bph">
+                <div class="avatar"></div>
+                <h3 class="member-name">Hidayat Nurrochman</h3>
+                <p class="member-role">Bendahara I</p>
+            </div>
+
+            <!--Bendahara II Umum-->
+            <div class="member-card creative-border hidden" data-category="bph">
+                <div class="avatar"></div>
+                <h3 class="member-name">Aizaro Dzaky Musthofa</h3>
+                <p class="member-role">Bendahara II</p>
+            </div>
+            
+            <!--IbadaH-->
+            <div class="member-card creative-border hidden" data-category="ibd">
+                <div class="avatar"></div>
+                <h3 class="member-name">Zhafran Aly Fauzan</h3>
+                <p class="member-role">Kadep Ibadah</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="ibd">
+                <div class="avatar"></div>
+                <h3 class="member-name">Nabil Aufanizar</h3>
+                <p class="member-role">Wakadep Ibadah</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="bhs">
+                <div class="avatar"></div>
+                <h3 class="member-name">Muhammad Yahya Saragih</h3>
+                <p class="member-role">Kadep Bahasa</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="bhs">
+                <div class="avatar"></div>
+                <h3 class="member-name">Muhammad Azzam Asyafiq</h3>
+                <p class="member-role">Wakadep Bahasa</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="amn">
+                <div class="avatar"></div>
+                <h3 class="member-name">Akrom Nida</h3>
+                <p class="member-role">Kadep Keamanan</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="amn">
+                <div class="avatar"></div>
+                <h3 class="member-name">Tegar Audima Al-Firdaus Setyawan</h3>
+                <p class="member-role">Wakadep Keamanan</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="sht">
+                <div class="avatar"></div>
+                <h3 class="member-name">Faaris Al Faruk</h3>
+                <p class="member-role">Kadep Kesehatan</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="sht">
+                <div class="avatar"></div>
+                <h3 class="member-name">Rafi Izaz Musyaffa</h3>
+                <p class="member-role">Wakadep Kesehatan</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="brs">
+                <div class="avatar"></div>
+                <h3 class="member-name">Rizky Fahrezi</h3>
+                <p class="member-role">Kadep Kebersihan</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="brs">
+                <div class="avatar"></div>
+                <h3 class="member-name">Hafidz Athfal Hanafi</h3>
+                <p class="member-role">Wakadep Kebersihan</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="olg">
+                <div class="avatar"></div>
+                <h3 class="member-name">Muhammad Farras</h3>
+                <p class="member-role">Kadep Olahraga</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="olg">
+                <div class="avatar"></div>
+                <h3 class="member-name">Aufa Zaidan Ulhaq</h3>
+                <p class="member-role">Wakadep Olahraga</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="sps">
+                <div class="avatar"></div>
+                <h3 class="member-name">Yusuf Maulana Dwi Saputra</h3>
+                <p class="member-role">Kadep Sarpras</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="sps">
+                <div class="avatar"></div>
+                <h3 class="member-name">Ahnan Andi Pratama</h3>
+                <p class="member-role">Wakadep Sarpras</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="mkn">
+                <div class="avatar"></div>
+                <h3 class="member-name">Davino Azaria Nugraha</h3>
+                <p class="member-role">Kadep Math'am</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="mkn">
+                <div class="avatar"></div>
+                <h3 class="member-name">Ubaidillah Aly</h3>
+                <p class="member-role">Wakadep Math'am</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="seni">
+                <div class="avatar"></div>
+                <h3 class="member-name">Muhammad Habiburrahman Jais Al-Islam</h3>
+                <p class="member-role">Kadep Kesenian</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="seni">
+                <div class="avatar"></div>
+                <h3 class="member-name">Fadhil</h3>
+                <p class="member-role">Wakadep Kesenian</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="it">
+                <div class="avatar"></div>
+                <h3 class="member-name">Priandika Daffa Utama</h3>
+                <p class="member-role">Kadep Media</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="it">
+                <div class="avatar"></div>
+                <h3 class="member-name">Iqbal Maulana Al Fiqi</h3>
+                <p class="member-role">Wakadep Media</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="humas">
+                <div class="avatar"></div>
+                <h3 class="member-name">Ahnaf Raqilla</h3>
+                <p class="member-role">Kadep Humas</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="humas">
+                <div class="avatar"></div>
+                <h3 class="member-name">Zaid</h3>
+                <p class="member-role">Wakadep Humas</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="bumo">
+                <div class="avatar"></div>
+                <h3 class="member-name">Hanif Multazzam Al-afgany</h3>
+                <p class="member-role">Kadep Kewirausahaan</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="bumo">
+                <div class="avatar"></div>
+                <h3 class="member-name">I Kadek Valeri Al-Fathir</h3>
+                <p class="member-role">Wakadep Kewirausahaan</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="tar">
+                <div class="avatar"></div>
+                <h3 class="member-name">Fabian Raka Pratama</h3>
+                <p class="member-role">Kadep Tarbiyah</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="tar">
+                <div class="avatar"></div>
+                <h3 class="member-name">Anas</h3>
+                <p class="member-role">Wakadep Tarbiyah</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="ibd">
+                <div class="avatar"></div>
+                <h3 class="member-name">Ibnu Sofyan Fadlurrahman</h3>
+                <p class="member-role">Sekdep Ibadah</p>
+            </div>
+            
+            <div class="member-card creative-border hidden" data-category="bhs">
+                <div class="avatar"></div>
+                <h3 class="member-name">Hakiki Syafaat Salam</h3>
+                <p class="member-role">Sekdep Bahasa</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="amn">
+                <div class="avatar"></div>
+                <h3 class="member-name">Farroos Wildan Muwaffiqul Hakim</h3>
+                <p class="member-role">Sekdep Keamanan</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="sht">
+                <div class="avatar"></div>
+                <h3 class="member-name">Muhammad Raul Ridho</h3>
+                <p class="member-role">Sekdep Kesehatan</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="brs">
+                <div class="avatar"></div>
+                <h3 class="member-name">Yusuf Abdulloh</h3>
+                <p class="member-role">Sekdep Kebersihan</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="olg">
+                <div class="avatar"></div>
+                <h3 class="member-name">Ibnu Rafi</h3>
+                <p class="member-role">Sekdep Olahraga</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="sps">
+                <div class="avatar"></div>
+                <h3 class="member-name">Muhammad Rizky Abdillah</h3>
+                <p class="member-role">Sekdep Sarpras</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="mkn">
+                <div class="avatar"></div>
+                <h3 class="member-name">Fathurrahman Hafizuddin</h3>
+                <p class="member-role">Sekdep Math’am</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="seni">
+                <div class="avatar"></div>
+                <h3 class="member-name">Asykar Bani Aziz</h3>
+                <p class="member-role">Sekdep Kesenian</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="it">
+                <div class="avatar"></div>
+                <h3 class="member-name">Muhamad Said</h3>
+                <p class="member-role">Sekdep Media</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="humas">
+                <div class="avatar"></div>
+                <h3 class="member-name">Al Fakhri Sandeco Wibowo</h3>
+                <p class="member-role">Sekdep Humas</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="bumo">
+                <div class="avatar"></div>
+                <h3 class="member-name">Kharis Abdillah</h3>
+                <p class="member-role">Sekdep Kewirausahaan</p>
+            </div>
+
+
+            <div class="member-card creative-border hidden" data-category="tar">
+                <div class="avatar"></div>
+                <h3 class="member-name">Pramudya Alif Izzani</h3>
+                <p class="member-role">Sekdep Tarbiyah</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="ibd">
+                <div class="avatar"></div>
+                <h3 class="member-name">Ismail Azzuhri</h3>
+                <p class="member-role">Bendep Ibadah</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="bhs">
+                <div class="avatar"></div>
+                <h3 class="member-name">M. Hafizh Hisham Ramadhan</h3>
+                <p class="member-role">Bendep Bahasa</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="amn">
+                <div class="avatar"></div>
+                <h3 class="member-name">Bayuaji Bangun Samudra</h3>
+                <p class="member-role">Bendep Keamanan</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="sht">
+                <div class="avatar"></div>
+                <h3 class="member-name">Ezra Sholeh Adhi Pratama</h3>
+                <p class="member-role">Bendep Kesehatan</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="brs">
+                <div class="avatar"></div>
+                <h3 class="member-name">Hamzah</h3>
+                <p class="member-role">Bendep Kebersihan</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="olg">
+                <div class="avatar"></div>
+                <h3 class="member-name">Muhammad Awwad Al-jauhani</h3>
+                <p class="member-role">Bendep Olahraga</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="sps">
+                <div class="avatar"></div>
+                <h3 class="member-name">Farhan Fahreza</h3>
+                <p class="member-role">Bendep Sarpras</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="mkn">
+                <div class="avatar"></div>
+                <h3 class="member-name">Muhammad Raihan Mumtaz</h3>
+                <p class="member-role">Bendep Math’am</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="seni">
+                <div class="avatar"></div>
+                <h3 class="member-name">Fathur Nurrohman</h3>
+                <p class="member-role">Bendep Kesenian</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="it">
+                <div class="avatar"></div>
+                <h3 class="member-name">Zaffa Danieswara Husna</h3>
+                <p class="member-role">Bendep Media</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="humas">
+                <div class="avatar"></div>
+                <h3 class="member-name">Mohammad Abdillah</h3>
+                <p class="member-role">Bendep Humas</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="bumo">
+                <div class="avatar"></div>
+                <h3 class="member-name">Naufal Ardha Pratama</h3>
+                <p class="member-role">Bendep Kewirausahaan</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="tar">
+                <div class="avatar"></div>
+                <h3 class="member-name">Sholeh Abdul Azis</h3>
+                <p class="member-role">Bendep Tarbiyah</p>
+            </div>
+
+            <!--Anggota Ibadah-->
+            <div class="member-card creative-border hidden" data-category="ibd">
+                <div class="avatar"></div>
+                <h3 class="member-name">Irbadh</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="ibd">
+                <div class="avatar"></div>
+                <h3 class="member-name">Lukmanul Hakim</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="ibd">
+                <div class="avatar"></div>
+                <h3 class="member-name">Sahl Nabil</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+            
+            <div class="member-card creative-border hidden" data-category="ibd">
+                <div class="avatar"></div>
+                <h3 class="member-name">Muhammad Rakha Purwanto</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="ibd">
+                <div class="avatar"></div>
+                <h3 class="member-name">Faishal Muhammad Rasyad Marpaung</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="ibd">
+                <div class="avatar"></div>
+                <h3 class="member-name">Abdullah Tsaqib</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="ibd">
+                <div class="avatar"></div>
+                <h3 class="member-name">Hamzah Uhud Syuhada</h3>
+                <p class="member-role">Anggota</p>
+
+            </div><div class="member-card creative-border hidden" data-category="ibd">
+                <div class="avatar"></div>
+                <h3 class="member-name">Omar Ayyash</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+            
+            <div class="member-card creative-border hidden" data-category="ibd">
+                <div class="avatar"></div>
+                <h3 class="member-name">Ahmad Royyan Saifuddin</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="ibd">
+                <div class="avatar"></div>
+                <h3 class="member-name">Ubaidillah</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="ibd">
+                <div class="avatar"></div>
+                <h3 class="member-name">Muhammad Al Fajri</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="ibd">
+                <div class="avatar"></div>
+                <h3 class="member-name">Bassam Zuhair</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="ibd">
+                <div class="avatar"></div>
+                <h3 class="member-name">Ahmad Faris Maulana</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="ibd">
+                <div class="avatar"></div>
+                <h3 class="member-name">Ahmad Ramadhan</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="ibd">
+                <div class="avatar"></div>
+                <h3 class="member-name">Ahmad Fathin</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="ibd">
+                <div class="avatar"></div>
+                <h3 class="member-name">Ibnu Umar Abdurrasyid</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="ibd">
+                <div class="avatar"></div>
+                <h3 class="member-name">Rifky Tamyiz Pratama</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="ibd">
+                <div class="avatar"></div>
+                <h3 class="member-name">Rega Muqaddas</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <!--Anggota Bahasa-->
+            <div class="member-card creative-border hidden" data-category="bhs">
+                <div class="avatar"></div>
+                <h3 class="member-name">Abyan Aufa Pratama</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="bhs">
+                <div class="avatar"></div>
+                <h3 class="member-name">Abdulloh Najib</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="bhs">
+                <div class="avatar"></div>
+                <h3 class="member-name">Amirul Raditya Khalid</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="bhs">
+                <div class="avatar"></div>
+                <h3 class="member-name">Ahmad Farhan Syafi’i</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="bhs">
+                <div class="avatar"></div>
+                <h3 class="member-name">Ahmad Haris Haziq</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="bhs">
+                <div class="avatar"></div>
+                <h3 class="member-name">Deedan Mayo Auriellda</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="bhs">
+                <div class="avatar"></div>
+                <h3 class="member-name">Khalid Al Mubarak</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+            
+            <div class="member-card creative-border hidden" data-category="bhs">
+                <div class="avatar"></div>
+                <h3 class="member-name">Abdul Alim</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="bhs">
+                <div class="avatar"></div>
+                <h3 class="member-name">Ammar Abdurrahman Mujahid</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="bhs">
+                <div class="avatar"></div>
+                <h3 class="member-name">Azzam Abdul Hakim</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="bhs">
+                <div class="avatar"></div>
+                <h3 class="member-name">Faiz Raditya Syahputra</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="bhs">
+                <div class="avatar"></div>
+                <h3 class="member-name">Hanif Maulana Ibrahim</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="bhs">
+                <div class="avatar"></div>
+                <h3 class="member-name">Arkan Saifullah Zuhdi</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="bhs">
+                <div class="avatar"></div>
+                <h3 class="member-name">Hudzaifah</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="bhs">
+                <div class="avatar"></div>
+                <h3 class="member-name">Muhammad Ahsan Rafiudin</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="bhs">
+                <div class="avatar"></div>
+                <h3 class="member-name">Muhammad Haidar Al Autsaq</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="bhs">
+                <div class="avatar"></div>
+                <h3 class="member-name">Nurefa Refriano Alfiarda</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="bhs">
+                <div class="avatar"></div>
+                <h3 class="member-name">Yahya Ar Rasyid</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+            <!--Anggota Amn-->
+            <div class="member-card creative-border hidden" data-category="amn">
+                <div class="avatar"></div>
+                <h3 class="member-name">Ardana Dzaki Akbar</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="amn">
+                <div class="avatar"></div>
+                <h3 class="member-name">Najib Ahmad Suhada</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="amn">
+                <div class="avatar"></div>
+                <h3 class="member-name">Salman</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="amn">
+                <div class="avatar"></div>
+                <h3 class="member-name">Akbar Rabani Aldiraya Adzani</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="amn">
+                <div class="avatar"></div>
+                <h3 class="member-name">Fairuz Reza Mu’affa</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="amn">
+                <div class="avatar"></div>
+                <h3 class="member-name">Hanif Abdullah</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="amn">
+                <div class="avatar"></div>
+                <h3 class="member-name">Ilyas Abdullah Tsaqif</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="amn">
+                <div class="avatar"></div>
+                <h3 class="member-name">Mu’ad Rijalus Sa’dan</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="amn">
+                <div class="avatar"></div>
+                <h3 class="member-name">Fakhri Adis Al-Atas</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="amn">
+                <div class="avatar"></div>
+                <h3 class="member-name">Ismail</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="amn">
+                <div class="avatar"></div>
+                <h3 class="member-name">Ilyasa</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+             <div class="member-card creative-border hidden" data-category="amn">
+                <div class="avatar"></div>
+                <h3 class="member-name">Raya Anugrah Fathurrahman</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+             <div class="member-card creative-border hidden" data-category="amn">
+                <div class="avatar"></div>
+                <h3 class="member-name">Surya Azzam Salam</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+             <div class="member-card creative-border hidden" data-category="amn">
+                <div class="avatar"></div>
+                <h3 class="member-name">Zharif Ahmad Hasan</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <!--Anggota Kesehatan-->
+            <div class="member-card creative-border hidden" data-category="sht">
+                <div class="avatar"></div>
+                <h3 class="member-name">Dzulfikar Ma’shum</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="sht">
+                <div class="avatar"></div>
+                <h3 class="member-name">Rajuanur Dirham Isnaini</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="sht">
+                <div class="avatar"></div>
+                <h3 class="member-name">Haidar</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="sht">
+                <div class="avatar"></div>
+                <h3 class="member-name">Dzaki Naufal Anindya</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="sht">
+                <div class="avatar"></div>
+                <h3 class="member-name">Naufal Aflan Kurniawan</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="sht">
+                <div class="avatar"></div>
+                <h3 class="member-name">Ukasyah Abyan Kamil</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="sht">
+                <div class="avatar"></div>
+                <h3 class="member-name">Altaf Rozan El Siddiq</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="sht">
+                <div class="avatar"></div>
+                <h3 class="member-name">Fathih Daanish Abrisam Abbasy</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="sht">
+                <div class="avatar"></div>
+                <h3 class="member-name">Keola Al Fatah Putra Hernanda</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="sht">
+                <div class="avatar"></div>
+                <h3 class="member-name">Mahardika Aji Ramadhan</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="sht">
+                <div class="avatar"></div>
+                <h3 class="member-name">Muhammad Safir Putra Wahyudi</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="sht">
+                <div class="avatar"></div>
+                <h3 class="member-name">Muhammad Michael Al Islami</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <!--Anggota Kebersihan-->
+            <div class="member-card creative-border hidden" data-category="brs">
+                <div class="avatar"></div>
+                <h3 class="member-name">Hamzah Bin Sardi</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="brs">
+                <div class="avatar"></div>
+                <h3 class="member-name">Abdullah Dzakwan Ja’far</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="brs">
+                <div class="avatar"></div>
+                <h3 class="member-name">Faiz Al-Ghifari</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="brs">
+                <div class="avatar"></div>
+                <h3 class="member-name">Muhammad Fathih</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="brs">
+                <div class="avatar"></div>
+                <h3 class="member-name">Al-Himsa Wisnu</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="brs">
+                <div class="avatar"></div>
+                <h3 class="member-name">Hudzaifah As-Salafi</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="brs">
+                <div class="avatar"></div>
+                <h3 class="member-name">Hannan Al-Faqqi</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="brs">
+                <div class="avatar"></div>
+                <h3 class="member-name">Muhammad Nata Raharja</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="brs">
+                <div class="avatar"></div>
+                <h3 class="member-name">Nabil Wahab</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+            
+            <!--Anggota Olahraga-->
+            <div class="member-card creative-border hidden" data-category="olg">
+                <div class="avatar"></div>
+                <h3 class="member-name">Muhammad Al Haitsami</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="olg">
+                <div class="avatar"></div>
+                <h3 class="member-name">Rilla Khoiru Dinawan</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="olg">
+                <div class="avatar"></div>
+                <h3 class="member-name">Athaullah Razan Syafiq</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="olg">
+                <div class="avatar"></div>
+                <h3 class="member-name">Muhamad Abid Al-hafidz</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="olg">
+                <div class="avatar"></div>
+                <h3 class="member-name">Ahmad Hanan Faiz</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="olg">
+                <div class="avatar"></div>
+                <h3 class="member-name">Hasan Hafidz</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="olg">
+                <div class="avatar"></div>
+                <h3 class="member-name">Jundi Zhafran Ar-rayyan</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+           <div class="member-card creative-border hidden" data-category="olg">
+                <div class="avatar"></div>
+                <h3 class="member-name">Khallid Abdul Jabbar</h3>
+                <p class="member-role">Anggota</p>
+            </div>            
+
+           <div class="member-card creative-border hidden" data-category="olg">
+                <div class="avatar"></div>
+                <h3 class="member-name">Muhammad Akhdan Alafa</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <!--Anggota Sarpras-->
+            <div class="member-card creative-border hidden" data-category="sps">
+                <div class="avatar"></div>
+                <h3 class="member-name">Said Mubarok</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="sps">
+                <div class="avatar"></div>
+                <h3 class="member-name">Aldi Nur Fauzi</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="sps">
+                <div class="avatar"></div>
+                <h3 class="member-name">Anan Bagus Anindhito</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+            <!--Anggota Math'am-->
+            <div class="member-card creative-border hidden" data-category="mkn">
+                <div class="avatar"></div>
+                <h3 class="member-name">Muhammad Fahmi</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="mkn">
+                <div class="avatar"></div>
+                <h3 class="member-name">Muhammad Fairuzul Wafi</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="mkn">
+                <div class="avatar"></div>
+                <h3 class="member-name">Rasyid Yuko Darmawan</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+            
+            <!--Anggota Kesenian-->
+            <div class="member-card creative-border hidden" data-category="seni">
+                <div class="avatar"></div>
+                <h3 class="member-name">Jundi Dien Muhammad</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="seni">
+                <div class="avatar"></div>
+                <h3 class="member-name">Abdurrahman Shuhaib</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="seni">
+                <div class="avatar"></div>
+                <h3 class="member-name">Sa’ad Latifuddin</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="seni">
+                <div class="avatar"></div>
+                <h3 class="member-name">Fayza Kamil Permana</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="seni">
+                <div class="avatar"></div>
+                <h3 class="member-name">Harjuno Darpo Kumoro</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="seni">
+                <div class="avatar"></div>
+                <h3 class="member-name">Muhammad Tsaqif  Kafi</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="seni">
+                <div class="avatar"></div>
+                <h3 class="member-name">Ahmad Bukhari Fahriadi</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <!--Anggota Media-->
+            <div class="member-card creative-border hidden" data-category="it">
+                <div class="avatar"></div>
+                <h3 class="member-name">Brian Rizqy Hutomo</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="it">
+                <div class="avatar"></div>
+                <h3 class="member-name">Zhafran Dwi Saputra</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="it">
+                <div class="avatar"></div>
+                <h3 class="member-name">Muhammad Farhan Dzaky</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="it">
+                <div class="avatar"></div>
+                <h3 class="member-name">Muhammad Raihan Salman Al Farisi</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="it">
+                <div class="avatar"></div>
+                <h3 class="member-name">Ismail Al Ghazali</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <!--Anggota Humas-->
+            <div class="member-card creative-border hidden" data-category="humas">
+                <div class="avatar"></div>
+                <h3 class="member-name">Khoirul Azzam</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="humas">
+                <div class="avatar"></div>
+                <h3 class="member-name">Muhammad Azzam Ahsanitaqwim</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="humas">
+                <div class="avatar"></div>
+                <h3 class="member-name">Abdullah Hariz</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="humas">
+                <div class="avatar"></div>
+                <h3 class="member-name">Aryan Yusuf Al Fandi</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="humas">
+                <div class="avatar"></div>
+                <h3 class="member-name">Fadhil Mumtaza Al Jihan</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <!--Anggota Kewirausahaan-->
+            <div class="member-card creative-border hidden" data-category="bumo">
+                <div class="avatar"></div>
+                <h3 class="member-name">Ahmad Thariq `Afif Murtadla</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="bumo">
+                <div class="avatar"></div>
+                <h3 class="member-name">Ahsan Luthfi Rahman</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="bumo">
+                <div class="avatar"></div>
+                <h3 class="member-name">Mush’ab</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="bumo">
+                <div class="avatar"></div>
+                <h3 class="member-name">Falah Risqullah Nurcahyo</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="bumo">
+                <div class="avatar"></div>
+                <h3 class="member-name">Ustman Al-atsari</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="bumo">
+                <div class="avatar"></div>
+                <h3 class="member-name">Irsyad Nur Musyafa</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <!--Anggota Tarbiyah-->
+            <div class="member-card creative-border hidden" data-category="tar">
+                <div class="avatar"></div>
+                <h3 class="member-name">Ahmad Lail Khotin</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="tar">
+                <div class="avatar"></div>
+                <h3 class="member-name">Raka Sifa Hisan Akbar</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="tar">
+                <div class="avatar"></div>
+                <h3 class="member-name">Fathurrahman Kamal Ramadhani</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="tar">
+                <div class="avatar"></div>
+                <h3 class="member-name">Firos Effendi</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+            
+            <div class="member-card creative-border hidden" data-category="tar">
+                <div class="avatar"></div>
+                <h3 class="member-name">Arya Sena Pramudya</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+             <div class="member-card creative-border hidden" data-category="tar">
+                <div class="avatar"></div>
+                <h3 class="member-name">Uqbah</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="tar">
+                <div class="avatar"></div>
+                <h3 class="member-name">Abdul Jabar Hamdi</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="tar">
+                <div class="avatar"></div>
+                <h3 class="member-name">Ibnu Zuhdie Akishen</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="tar">
+                <div class="avatar"></div>
+                <h3 class="member-name">Aunur Rofiq</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="tar">
+                <div class="avatar"></div>
+                <h3 class="member-name">Azka Muhammad Rafa Afrandan</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="tar">
+                <div class="avatar"></div>
+                <h3 class="member-name">Faqih Dzakwan Anantiya</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
+            <div class="member-card creative-border hidden" data-category="tar">
+                <div class="avatar"></div>
+                <h3 class="member-name">Ibrahim</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+            
+            <div class="member-card creative-border hidden" data-category="tar">
+                <div class="avatar"></div>
+                <h3 class="member-name">Ihsan Zahy</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+            
+            <div class="member-card creative-border hidden" data-category="tar">
+                <div class="avatar"></div>
+                <h3 class="member-name">Muhammad Faris Hakim</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+            
+        </div>
+    </section>
+
+    <section id="contact" class="section">
+        <h2 class="section-title hidden">Get In Touch</h2>
+        <div class="contact-container hidden">
+            <div class="contact-info">
+                <h3>Let's Collaborate</h3>
+                <p>Have questions about OSPIA, want to partner for an event, or just want to say hi? Fill out the form or reach us directly.</p>
+                
+                <div class="info-item">
+                    <span>📍</span> Beku, Kliwonan, Kec. Masaran, Kabupaten Sragen, Jawa Tengah
+                </div>
+                <div class="info-item">
+                    <span>📧</span> officialospia@gmail.com
+                </div>
+                <div class="info-item">
+                    <span>📱</span> +62 857-7616-4561
+                </div>
+            </div>
+
+         <form action="http://localhost:3000/send" method="POST">
+          <div class="form-group">
+          <input type="text" id="senderName" placeholder="Your Name" required>
+           </div>
+          <div class="form-group">
+           <input type="email" id="senderEmail" placeholder="Your Email" required>
+             </div>
+             <div class="form-group">
+            <textarea id="senderMessage" rows="5" placeholder="Your Message" required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Send Message</button>
+        </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025/2026 OSPIA. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // 1. Scroll Effect for Navbar
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // 2. Scroll Animation (Fade Up)
+        const observerOptions = { threshold: 0.2 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        }, observerOptions);
+
+        const hiddenElements = document.querySelectorAll('.hidden');
+        hiddenElements.forEach((el) => observer.observe(el));
+        
+        // 3. Team Filter Logic dengan TOGGLE
+        let activeCategory = null; // Track tombol yang aktif
+
+        function filterTeam(category) {
+            const cards = document.querySelectorAll('.member-card');
+            const buttons = document.querySelectorAll('.tab-btn');
+            const currentButton = event.target;
+            
+            // TOGGLE LOGIC: Kalo klik tombol yang sama lagi
+            if (activeCategory === category) {
+                // Matikan filter (tampilkan semua)
+                activeCategory = null;
+                currentButton.classList.remove('active');
+                
+                cards.forEach(card => {
+                    card.classList.remove('hide');
+                    card.style.animation = 'none';
+                    card.offsetHeight; /* trigger reflow */
+                    card.style.animation = 'fadeIn 0.5s ease-in-out';
+                });
+                
+                return; // Keluar dari fungsi
+            }
+            
+            // Aktifkan filter baru
+            activeCategory = category;
+            
+            // Reset semua tombol
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Aktifkan tombol yang diklik
+            currentButton.classList.add('active');
+            
+            // Filter cards
+            cards.forEach(card => {
+                if (card.dataset.category === category) {
+                    card.classList.remove('hide');
+                    // Reset animation
+                    card.style.animation = 'none';
+                    card.offsetHeight; /* trigger reflow */
+                    card.style.animation = 'fadeIn 0.5s ease-in-out';
+                } else {
+                    card.classList.add('hide');
+                }
+            });
+        
+
+        //4. auto transition--ben smooth transisi
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const track = document.querrySelector('.track');
+            if (!track) return; 
+            
+            const originalCards = Array.from(track.children);
+
+            track.innerHTML = '';
+
+            for (let i = 0; i < 3; i++) {
+                originalCards.forEach(card => {
+                const clone = card.cloneNode(true);
+                track.appendChild(clone);
+                });
+            }
+    
+            //resset animasi
+            track.style.animation = 'none';
+            setTimeout(() => {
+                track.style.animation = 'scrollLeft 20s linear infinite';
+            }, 10);
+
+            });
+
+        }
+        const form = document.getElementById('contactForm');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                message: document.getElementById('message').value
+            };
+
+            try {
+                const response = await fetch('http://localhost:3000/send-email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    alert('Pesan terkirim, bro!');
+                    form.reset();
+                } else {
+                    alert('Gagal ngirim pesan.');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Server lagi error nih.');
+            }
+        });
+    </script>
+</body>
+</html>
