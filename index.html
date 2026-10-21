@@ -218,52 +218,87 @@
             position: relative;
         }
 
-        .marquee-wrapper {
-            display: flex;
-            width: fit-content;
-            animation: scrollLeft 50s linear infinite;
+        .events-container { 
+            padding: 80px 0; 
+            background: var(--bg-card); 
+            overflow: hidden; 
         }
 
-        .track {
-            display: flex;
-            gap: 40px;
-            width: max-content;
-            animation: scrollLeft 70s linear infinite;
-            will-change: transform;
-            backface-visibility: hidden;
-            perspective: 1000px;
+        .events-section-header { 
+            padding: 0 50px 20px; 
+            max-width: 1200px; 
+            margin: 0 auto; 
         }
 
-        .track:hover {
-            animation-play-state: paused;
+        .carousel-outer { 
+            position: relative; 
+            width: 100%; 
+            overflow: hidden; 
+            cursor: grab; 
+            user-select: none; 
+            touch-action: pan-y; 
         }
 
-        @keyframes scrollLeft {
-            0% { transform: translate3d(0, 0, 0); }
-            100% { transform: translate3d(-50%, 0, 0); }
+        .carousel-track { 
+            position: relative; 
+            display: flex; 
+            align-items: stretch; 
+            gap: 30px; 
+            padding: 20px 0; 
+            transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94); 
+            will-change: transform; 
         }
 
+/* ukuran seragam + isi di tengah */
         .event-card {
-            width: 350px;
+            flex: 0 0 350px; 
+            width: 350px; 
             height: 220px;
-            background: var(--bg-dark);
-            border: 1px solid #3a7abfa6;
-            margin: 0 20px;
-            border-radius: 15px;
-            padding: 30px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: 50s;
-            flex-shrink: 0;
+            background: var(--bg-dark); 
+            border: 1px solid #3a7abf55; 
+            border-radius: 20px; 
+            padding: 24px;
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center;
+            text-align: center; 
+            gap: 10px; 
+            overflow: hidden; 
+            opacity: 0.55;
+            transition: border-color 0.4s, box-shadow 0.4s, opacity 0.4s;
+            }
+
+        .event-card.active-slide { 
+            border-color: #3a7abf; 
+            box-shadow: 0 10px 40px #3a7abf55; 
+            opacity: 1; 
         }
 
-        .event-card:hover {
-            border-color: #3a7abfa6;
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px #3a7abfa6;
+        .event-date { 
+            display: block; 
+            font-size: 0.9rem; 
+            color: #3a7abf; 
+            font-weight: 600; 
         }
 
+        .event-card > a { 
+            display: block; 
+            width: 100%; 
+        }
+
+        .event-title { 
+            display: -webkit-box; 
+            -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; font-size: 1.4rem; font-weight: 600; line-height: 1.3; }
+        .event-desc { color: #888; font-size: 0.95rem; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+        .carousel-controls { display: flex; align-items: center; justify-content: center; gap: 20px; padding: 24px 0 8px; }
+        .carousel-btn { background: rgba(58,122,191,0.15); border: 1px solid #3a7abf; color: #fff; width: 44px; height: 44px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
+        .carousel-btn:hover { background: #3a7abf; box-shadow: 0 0 15px #3a7abf88; }
+        .carousel-dots { display: flex; gap: 8px; align-items: center; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: #444; cursor: pointer; transition: all 0.3s; }
+        .dot.active { background: #3a7abf; width: 24px; border-radius: 4px; }
+        
         .event-date {
             font-size: 0.9rem;
             color: #3a7abf;
@@ -550,6 +585,13 @@
     .contact-info h3 {
         font-size: 1.5rem;
     }
+
+    .events-section-header { padding: 0 20px 20px; }
+.carousel-track { gap: 15px; padding: 20px 0; }
+    .event-card { flex: 0 0 calc(100vw - 64px); width: calc(100vw - 64px); height: 190px; padding: 18px; gap: 8px; }
+    .event-title { font-size: 1.05rem; }
+    .event-date { font-size: 0.8rem; }
+    .event-desc { font-size: 0.85rem; }
 }
 
 /* Perubahan untuk Foto Anggota */
@@ -562,17 +604,6 @@
             width: 100%;
             height: 100%;
             object-fit: cover; /* Memastikan gambar menutupi area tanpa terdistorsi */
-        }
-
-        @keyframes scroll {
-          0% { transform: translateX(0); }
-         100% { transform: translateX(-50%); } /* Geser sejauh setengah lebar container yang sudah diduplikasi */
-        }
-
-        .event-wrapper {
-         display: flex;
-         width: max-content; /* Biar lebar mengikuti jumlah card */
-         animation: scroll 20s linear infinite;
         }
 
         a {
@@ -622,12 +653,11 @@
     </section>
 
     <div id="events" class="events-container">
-        <div class="section" style="padding-bottom: 20px;">
+        <div class="events-section-header">
             <h2 class="section-title hidden">Our Events</h2>
         </div>
-        
-        <div class="marquee-wrapper">
-            <div class="track">
+        <div class="carousel-outer" id="carouselOuter">
+            <div class="carousel-track" id="carouselTrack">
                 <!-- SET 1 -->
                 <div class="event-card">
                     <span class="event-date">28 Februari 2026</span>
@@ -645,69 +675,23 @@
                     <p style="color:#888; margin-top:10px;">Kelola Administrasi, Bangun Organisasi.</p>
                 </div>
                 <div class="event-card">
-                    <span class="event-date">1 Oktober 2026</span>
-                    <a href="rakta.html"><span class="event-title">Rakta Fest</span></a>
-                    <p style="color:#888; margin-top:10px;">Donate Blood Save A Life.</p>
-                </div>
-                <div class="event-card">
                     <span class="event-date">17 September-1 Oktober 2026</span>
                     <a href="mi2.html"><span class="event-title">Musabaqah Ilmiyah 2</span></a>
-                    <p style="color:#888; margin-top:10px;">Menggali Potensi Meraih Prestasi.</p>
-                </div>
-                <!-- SET 2 -->
-                <div class="event-card">
-                    <span class="event-date">28 Februari 2026</span>
-                    <a href="sertijab.html"><span class="event-title">Sertijab Masa Bakti 2025/2026 ke Masa Bakti 2026/2027</span></a>
-                    <p style="color:#888; margin-top:10px;">Estafet Kepemimpinan, Melanjutkan Perjuangan.</p>
-                </div>
-                <div class="event-card">
-                    <span class="event-date">30 Agustus 2026</span>
-                    <a href="mnjmn.html"><span class="event-title">Pelatihan Dasar Kepemimpinan</span></a>
-                    <p style="color:#888; margin-top:10px;">Tumbuhkan Kepemimpinan, Bangun Masa Depan.</p>
-                </div>
-                <div class="event-card">
-                    <span class="event-date">31 Agustus 2026</span>
-                    <a href="admn.html"><span class="event-title">Pelatihan Administrasi</span></a>
-                    <p style="color:#888; margin-top:10px;">Kelola Administrasi, Bangun Organisasi.</p>
+                    <p style="color:#888; margin-top:10px;">Menggali Potensi, Meraih Prestasi.</p>
                 </div>
                 <div class="event-card">
                     <span class="event-date">1 Oktober 2026</span>
                     <a href="rakta.html"><span class="event-title">Rakta Fest</span></a>
                     <p style="color:#888; margin-top:10px;">Donate Blood Save A Life.</p>
                 </div>
-                <div class="event-card">
-                    <span class="event-date">17 September-1 Oktober 2026</span>
-                    <a href="mi2.html"><span class="event-title">Musabaqah Ilmiyah 2</span></a>
-                    <p style="color:#888; margin-top:10px;">Menggali Potensi Meraih Prestasi.</p>
-                </div>
-                <!-- SET 3 -->
-                <div class="event-card">
-                    <span class="event-date">28 Februari 2026</span>
-                    <a href="sertijab.html"><span class="event-title">Sertijab Masa Bakti 2025/2026 ke Masa Bakti 2026/2027</span></a>
-                    <p style="color:#888; margin-top:10px;">Estafet Kepemimpinan, Melanjutkan Perjuangan.</p>
-                </div>
-                <div class="event-card">
-                    <span class="event-date">30 Agustus 2026</span>
-                    <a href="mnjmn.html"><span class="event-title">Pelatihan Dasar Kepemimpinan</span></a>
-                    <p style="color:#888; margin-top:10px;">Tumbuhkan Kepemimpinan, Bangun Masa Depan.</p>
-                </div>
-                <div class="event-card">
-                    <span class="event-date">31 Agustus 2026</span>
-                    <a href="admn.html"><span class="event-title">Pelatihan Administrasi</span></a>
-                    <p style="color:#888; margin-top:10px;">Kelola Administrasi, Bangun Organisasi.</p>
-                </div>
-                <div class="event-card">
-                    <span class="event-date">1 Oktober 2026</span>
-                    <a href="rakta.html"><span class="event-title">Rakta Fest</span></a>
-                    <p style="color:#888; margin-top:10px;">Donate Blood Save A Life.</p>
-                </div>
-                <div class="event-card">
-                    <span class="event-date">17 September-1 Oktober 2026</span>
-                    <a href="mi2.html"><span class="event-title">Musabaqah Ilmiyah 2</span></a>
-                    <p style="color:#888; margin-top:10px;">Menggali Potensi Meraih Prestasi.</p>
-                </div>
+
             </div>
         </div>
+        <div class="carousel-controls">
+        <button class="carousel-btn" id="prevBtn">&#8592;</button>
+        <div class="carousel-dots" id="carouselDots"></div>
+        <button class="carousel-btn" id="nextBtn">&#8594;</button>
+    </div>
     </div>
 
     <section id="team" class="section">
@@ -775,13 +759,13 @@
             <!--IbadaH-->
             <div class="member-card creative-border hidden" data-category="ibd">
                 <div class="avatar"></div>
-                <h3 class="member-name">Zhafran Aly Fauzan</h3>
+                <h3 class="member-name">Nabil Aufanizar</h3>
                 <p class="member-role">Kadep Ibadah</p>
             </div>
 
             <div class="member-card creative-border hidden" data-category="ibd">
                 <div class="avatar"></div>
-                <h3 class="member-name">Nabil Aufanizar</h3>
+                <h3 class="member-name">Faishal Muhammad Rasyad Marpaung</h3>
                 <p class="member-role">Wakadep Ibadah</p>
             </div>
 
@@ -1034,7 +1018,7 @@
 
             <div class="member-card creative-border hidden" data-category="brs">
                 <div class="avatar"></div>
-                <h3 class="member-name">Hamzah Bin Sardi</h3>
+                <h3 class="member-name">Abdullah Dzakwan Ja’far</h3>
                 <p class="member-role">Bendep Kebersihan</p>
             </div>
 
@@ -1108,12 +1092,6 @@
             <div class="member-card creative-border hidden" data-category="ibd">
                 <div class="avatar"></div>
                 <h3 class="member-name">Muhammad Rakha Purwanto</h3>
-                <p class="member-role">Anggota</p>
-            </div>
-
-            <div class="member-card creative-border hidden" data-category="ibd">
-                <div class="avatar"></div>
-                <h3 class="member-name">Faishal Muhammad Rasyad Marpaung</h3>
                 <p class="member-role">Anggota</p>
             </div>
 
@@ -1375,7 +1353,7 @@
                 <h3 class="member-name">Surya Azzam Salam</h3>
                 <p class="member-role">Anggota</p>
             </div>
-        
+
             <!--Anggota Kesehatan-->
             <div class="member-card creative-border hidden" data-category="sht">
                 <div class="avatar"></div>
@@ -1394,7 +1372,7 @@
                 <h3 class="member-name">Haidar</h3>
                 <p class="member-role">Anggota</p>
             </div>
-            
+
             <div class="member-card creative-border hidden" data-category="sht">
                 <div class="avatar"></div>
                 <h3 class="member-name">Naufal Aflan Kurniawan</h3>
@@ -1403,7 +1381,7 @@
 
             <div class="member-card creative-border hidden" data-category="sht">
                 <div class="avatar"></div>
-                <h3 class="member-name">Abimanyu</h3>
+                <h3 class="member-name">Abimanyu Rizki Hutama</h3>
                 <p class="member-role">Anggota</p>
             </div>
 
@@ -1444,10 +1422,9 @@
             </div>
 
             <!--Anggota Kebersihan-->
-        
             <div class="member-card creative-border hidden" data-category="brs">
                 <div class="avatar"></div>
-                <h3 class="member-name">Abdullah Dzakwan Ja’far</h3>
+                <h3 class="member-name">Hamzah Bin Sardi</h3>
                 <p class="member-role">Anggota</p>
             </div>
 
@@ -1486,9 +1463,8 @@
                 <h3 class="member-name">Muhammad Nata Raharja</h3>
                 <p class="member-role">Anggota</p>
             </div>
-           
+            
             <!--Anggota Olahraga-->
-          
             <div class="member-card creative-border hidden" data-category="olg">
                 <div class="avatar"></div>
                 <h3 class="member-name">Rilla Khoiru Dinawan</h3>
@@ -1729,7 +1705,13 @@
                 <h3 class="member-name">Raka Sifa Hisan Akbar</h3>
                 <p class="member-role">Anggota</p>
             </div>
-           
+
+            <div class="member-card creative-border hidden" data-category="tar">
+                <div class="avatar"></div>
+                <h3 class="member-name">Fathurrahman Kamal Ramadhani</h3>
+                <p class="member-role">Anggota</p>
+            </div>
+
             <div class="member-card creative-border hidden" data-category="tar">
                 <div class="avatar"></div>
                 <h3 class="member-name">Firos Effendi</h3>
@@ -1741,7 +1723,7 @@
                 <h3 class="member-name">Arya Sena Pramudya</h3>
                 <p class="member-role">Anggota</p>
             </div>
-           
+
             <div class="member-card creative-border hidden" data-category="tar">
                 <div class="avatar"></div>
                 <h3 class="member-name">Abdul Jabar Hamdi</h3>
@@ -1908,7 +1890,7 @@
             });
         
 
-        //4. auto transition--ben smooth transisi
+        //4. transition--ben smooth transisi
 
         document.addEventListener('DOMContentLoaded', function() {
             const track = document.querrySelector('.track');
@@ -1934,34 +1916,55 @@
             });
 
         }
-        const form = document.getElementById('contactForm');
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const formData = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                message: document.getElementById('message').value
-            };
+        (function() {
+            const track = document.getElementById('carouselTrack');
+            const outer = document.getElementById('carouselOuter');
+            const dotsWrap = document.getElementById('carouselDots');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const cards = Array.from(track.querySelectorAll('.event-card'));
+            const total = cards.length;
+        if (!total) return;
+        let cur = 0, autoTimer, dragging = false, sx = 0, cx = 0, base = 0;
 
-            try {
-                const response = await fetch('http://localhost:3000/send-email', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
-                });
-
-                if (response.ok) {
-                    alert('Pesan terkirim, bro!');
-                    form.reset();
-                } else {
-                    alert('Gagal ngirim pesan.');
-                }
-            } catch (err) {
-                console.error(err);
-                alert('Server lagi error nih.');
-            }
+        cards.forEach((_, i) => {
+            const d = document.createElement('div');
+        d.className = 'dot' + (i === 0 ? ' active' : '');
+        d.onclick = () => go(i);
+        dotsWrap.appendChild(d);
         });
+
+        function getOffset(i) {
+            const c = cards[i];
+            return (outer.clientWidth / 2) - (c.offsetLeft + c.offsetWidth / 2);
+        }
+        function go(i, instant) {
+            cur = ((i % total) + total) % total;
+            base = getOffset(cur);
+            track.style.transition = instant ? 'none' : 'transform 0.45s cubic-bezier(0.25,0.46,0.45,0.94)';
+            track.style.transform = `translateX(${base}px)`;
+            dotsWrap.querySelectorAll('.dot').forEach((d, j) => d.classList.toggle('active', j === cur));
+            cards.forEach((c, j) => c.classList.toggle('active-slide', j === cur));
+            clearInterval(autoTimer);
+            autoTimer = setInterval(() => go(cur + 1), 4000);
+        }
+    prevBtn.onclick = () => go(cur - 1);
+    nextBtn.onclick = () => go(cur + 1);
+
+        const ds = x => { dragging = true; sx = cx = x; track.style.transition = 'none'; clearInterval(autoTimer); };
+        const dm = x => { if (!dragging) return; cx = x; track.style.transform = `translateX(${base + (cx - sx)}px)`; };
+        const de = () => { if (!dragging) return; dragging = false; go(Math.abs(cx - sx) > 50 ? (cx < sx ? cur + 1 : cur - 1) : cur); };
+            outer.addEventListener('mousedown', e => ds(e.clientX));
+            window.addEventListener('mousemove', e => dm(e.clientX));
+            window.addEventListener('mouseup', de);
+            outer.addEventListener('touchstart', e => ds(e.touches[0].clientX), { passive: true });
+            outer.addEventListener('touchmove', e => dm(e.touches[0].clientX), { passive: true });
+            outer.addEventListener('touchend', de);
+            window.addEventListener('resize', () => go(cur, true));
+            window.addEventListener('load', () => go(cur, true));
+            go(0, true);
+})();
+
     </script>
 </body>
 </html>
